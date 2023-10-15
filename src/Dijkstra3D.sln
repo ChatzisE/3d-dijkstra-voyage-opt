@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dijkstra3D.Core", "Dijkstra3D.Core\Dijkstra3D.Core.csproj", "{BAFACBC7-6819-49EF-B288-81D0406851CA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dijkstra3D.UnitTests", "Dijkstra3D.UnitTests\Dijkstra3D.UnitTests.csproj", "{0B00B19F-AD0B-4129-9234-380E7FDDEDEC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BAFACBC7-6819-49EF-B288-81D0406851CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAFACBC7-6819-49EF-B288-81D0406851CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAFACBC7-6819-49EF-B288-81D0406851CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAFACBC7-6819-49EF-B288-81D0406851CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B00B19F-AD0B-4129-9234-380E7FDDEDEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B00B19F-AD0B-4129-9234-380E7FDDEDEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B00B19F-AD0B-4129-9234-380E7FDDEDEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B00B19F-AD0B-4129-9234-380E7FDDEDEC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
