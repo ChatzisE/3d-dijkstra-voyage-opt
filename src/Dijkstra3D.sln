@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dijkstra3D.Core", "Dijkstra
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dijkstra3D.UnitTests", "Dijkstra3D.UnitTests\Dijkstra3D.UnitTests.csproj", "{0B00B19F-AD0B-4129-9234-380E7FDDEDEC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dijkstra3D.Api", "Dijkstra3D.Api\Dijkstra3D.Api.csproj", "{3BBDE90E-C7FC-4BF1-ACBB-261CFD00FDED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{0B00B19F-AD0B-4129-9234-380E7FDDEDEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B00B19F-AD0B-4129-9234-380E7FDDEDEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B00B19F-AD0B-4129-9234-380E7FDDEDEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3BBDE90E-C7FC-4BF1-ACBB-261CFD00FDED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3BBDE90E-C7FC-4BF1-ACBB-261CFD00FDED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3BBDE90E-C7FC-4BF1-ACBB-261CFD00FDED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3BBDE90E-C7FC-4BF1-ACBB-261CFD00FDED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

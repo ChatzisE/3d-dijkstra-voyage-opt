@@ -2,14 +2,10 @@
 
 namespace Dijkstra3D.Core;
 
-public class Dijkstra3D
+public class Dijkstra3D : IDijkstra3D
 {
-    private Calculations _calculations { get; set; }
+    private Calculations _calculations { get;} = new();
 
-    public Dijkstra3D()
-    {
-        _calculations = new Calculations();
-    }
     public List<Waypoint> GetGreatCirclePath(Waypoint departure, Waypoint arrival, double step = 3.0)
     {
         var path = new List<Waypoint>();
@@ -19,7 +15,7 @@ public class Dijkstra3D
         {
             var lon = departure.Lon + (arrival.Lon - departure.Lon) * i / numberOfWaypoints;
             var lat = departure.Lat + (arrival.Lat - departure.Lat) * i / numberOfWaypoints;
-            var waypoint = new Waypoint { Lon = _calculations.RadianToDegree(lon), Lat = _calculations.RadianToDegree(lat) };
+            var waypoint = new Waypoint { Lon = lon, Lat = lat };
             path.Add(waypoint);
         }
         return path;
