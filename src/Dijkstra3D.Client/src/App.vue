@@ -26,6 +26,16 @@
           step="1"
           required
       />
+      <div class="sidebar-sub-title">Speed (kn):</div>
+      <input
+          id="hours"
+          v-model.number="speedOverGround"
+          type="number"
+          min="1"
+          max="24"
+          step="1"
+          required
+      />
       <div>
         <button @click="submitForm">Submit</button>
         <button @click="resetForm">Reset</button>
@@ -58,10 +68,12 @@ export default defineComponent({
         timestamp: new Date(),
       } as Waypoint,
       step: 3 as number,
+      speedOverGround: 12 as number,
     };
     const departure = ref<Waypoint>(_defaultValues.departure);
     const arrival = ref<Waypoint>(_defaultValues.arrival);
     const step = ref(_defaultValues.step);
+    const speedOverGround = ref(_defaultValues.speedOverGround);
     const path = ref<Waypoint[] | null>(null);
     const markers = ref<L.LayerGroup | null>(null);
     const map = ref<L.Map | null>(null);
@@ -75,11 +87,13 @@ export default defineComponent({
             departure: departure.value,
             arrival: arrival.value,
             step: step.value,
+            speedOverGround: speedOverGround.value
           }
       );
       //@ts-ignore
       if (greatCircle.value) map.value?.removeLayer(greatCircle.value);
       else greatCircle.value = L.polyline([], {color: "red"});
+      debugger;
       path.value?.forEach((p) => {
         console.log(p.lat, p.lon);
         greatCircle.value?.addLatLng(L.latLng(p.lat, p.lon));
@@ -145,6 +159,7 @@ export default defineComponent({
         arrival.value = _defaultValues.arrival;
       }
       step.value = _defaultValues.step;
+      speedOverGround.value = _defaultValues.speedOverGround;
     };
 
     return {departure, arrival, step, path, submitForm, resetForm};

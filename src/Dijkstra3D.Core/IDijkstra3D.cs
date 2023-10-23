@@ -2,5 +2,6 @@ namespace Dijkstra3D.Core;
 
 public interface IDijkstra3D
 {
-    List<Waypoint> GetGreatCirclePath(Waypoint departure, Waypoint arrival, double step = 3.0);
+    List<Waypoint> GetGreatCirclePath(Waypoint departure, Waypoint arrival, double step = 3.0,
+        double speedOverGround = 12.0);
 }

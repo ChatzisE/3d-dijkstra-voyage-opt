@@ -19,6 +19,106 @@ namespace Dijkstra3D.Core
             return arrival.AddHours(calcHours);
         }
 
+        // --- GC CALCULATIONS ---
+        public Waypoint FindNewPointOnGC(double lon1, double lat1, double lon2, double lat2, double distanceNM)
+        {
+            var bearing = CalcBearingGC(lon1, lat1, lon2, lat2);
+            var newPoint = FindNewPointWithBearing(lon1, lat1, bearing, distanceNM);
+            if (newPoint.Lon > 180)
+                newPoint.Lon = (newPoint.Lon - 360);
+            else if ((decimal)newPoint.Lon < -180)
+                newPoint.Lon = (360 + newPoint.Lon);
+            return newPoint;
+        }
+
+        public double CalcBearingGC(double lon1, double lat1, double lon2, double lat2)
+        {
+            //Convert to radians
+            double x1 = DegreeToRadian(lon1);
+            double y1 = DegreeToRadian(lat1);
+            double x2 = DegreeToRadian(lon2);
+            double y2 = DegreeToRadian(lat2);
+
+            double bearing = 0;
+            double a = Math.Cos(y2) * Math.Sin(x2 - x1);
+            double b = Math.Cos(y1) * Math.Sin(y2) - Math.Sin(y1) * Math.Cos(y2) * Math.Cos(x2 - x1);
+            double adjust = 0;
+
+            if ((a == 0) && (b == 0))
+            {
+                bearing = 0;
+            }
+            else if (b == 0)
+            {
+                if (a < 0)
+                    bearing = 3 * Math.PI / 2;
+                else
+                    bearing = Math.PI / 2;
+            }
+            else if (b < 0)
+            {
+                adjust = Math.PI;
+                bearing = RadianToDegree((Math.Atan(a / b) + adjust));
+            }
+            else
+            {
+                if (a < 0)
+                    adjust = 2 * Math.PI;
+                else
+                    adjust = 0;
+
+                bearing = RadianToDegree(Math.Atan(a / b) + adjust);
+            }
+
+            return bearing;
+        }
+
+        public Waypoint FindNewPointWithBearing(double lon, double lat, double bearing, double distanceNM)
+        {
+            double distanceNMadjusted = distanceNM / 0.29155;
+            Waypoint newPoint = new Waypoint();
+            double x1deg = Convert.ToDouble(lon);
+            double y1deg = Convert.ToDouble(lat);
+
+            //Convert distance to km
+            double distance = distanceNMadjusted / 1.852;
+            //Radius of the Earth in km
+            //double EARTH_RADIUS = 6371;
+            double EARTH_RADIUS = EstimateEarthRadius(lat);
+
+            //Convert to radians
+            double x1 = DegreeToRadian(x1deg);
+            double y1 = DegreeToRadian(y1deg);
+            double bearingRadian = DegreeToRadian(bearing);
+
+            // Convert arc distance to radians
+            double c = distance / EARTH_RADIUS;
+
+            double ynew =
+                RadianToDegree(Math.Asin(Math.Sin(y1) * Math.Cos(c) +
+                                         Math.Cos(y1) * Math.Sin(c) * Math.Cos(bearingRadian)));
+            double xnew;
+
+            double a = Math.Sin(c) * Math.Sin(bearingRadian);
+            double b = Math.Cos(y1) * Math.Cos(c) - Math.Sin(y1) * Math.Sin(c) * Math.Cos(bearingRadian);
+
+            if (b == 0)
+                xnew = x1deg;
+            else
+                xnew = x1deg + RadianToDegree(Math.Atan(a / b));
+
+            newPoint.Lon = xnew;
+            newPoint.Lat = ynew;
+
+            // Resolve accuracy issues
+            if ((bearing == 0) || (bearing == 180))
+                newPoint.Lon = lon;
+            else if ((bearing == 90) || (bearing == 270))
+                newPoint.Lat = lat;
+
+            return newPoint;
+        }
+
         public double CalcDistGC_ChangeDir(double lon1, double lat1, double lon2, double lat2, bool changeDir)
         {
             //var R = 6371; // The mean radius of the earth in km

@@ -17,10 +17,9 @@ public class MainController : ControllerBase
         _logger = logger;
         _dijkstra3D = new Core.Dijkstra3D();
     }
-    
+
     [HttpPost]
-    [Route("great-circle/{hours}")]
-    public IEnumerable<Waypoint> GetGreatCirclePath([FromBody] PathRequest request, double hours = 3) =>
-        _dijkstra3D.GetGreatCirclePath(request.Departure, request.Arrival, hours);
-    
+    [Route("great-circle")]
+    public IEnumerable<Waypoint> GetGreatCirclePath([FromBody] PathRequest request) =>
+        _dijkstra3D.GetGreatCirclePath(request.Departure, request.Arrival, request.Step, request.SpeedOverGround);
 }
