@@ -18,7 +18,6 @@
       </div>
       <div class="sidebar-sub-title">Step (hr):</div>
       <input
-          id="hours"
           v-model.number="step"
           type="number"
           min="1"
@@ -28,7 +27,6 @@
       />
       <div class="sidebar-sub-title">Speed (kn):</div>
       <input
-          id="hours"
           v-model.number="speedOverGround"
           type="number"
           min="1"
@@ -36,8 +34,8 @@
           step="1"
           required
       />
-      <div>
-        <button @click="submitForm">Submit</button>
+      <div style="text-align: center">
+        <button @click="submitForm">Run</button>
         <button @click="resetForm">Reset</button>
       </div>
     </form>
@@ -67,7 +65,7 @@ export default defineComponent({
         lon: -64.78,
         timestamp: new Date(),
       } as Waypoint,
-      step: 3 as number,
+      step: 12 as number,
       speedOverGround: 12 as number,
     };
     const departure = ref<Waypoint>(_defaultValues.departure);
@@ -92,14 +90,17 @@ export default defineComponent({
       );
       //@ts-ignore
       if (greatCircle.value) map.value?.removeLayer(greatCircle.value);
-      else greatCircle.value = L.polyline([], {color: "red"});
-      debugger;
+      else greatCircle.value = L.polyline([], {color: "#005fa3"});
       path.value?.forEach((p) => {
-        console.log(p.lat, p.lon);
         greatCircle.value?.addLatLng(L.latLng(p.lat, p.lon));
+        const circleMarker = L.circleMarker(L.latLng(p.lat, p.lon), { radius: 3, color: '#121A1DFF', fillOpacity: 1 });
+        markers.value?.addLayer(circleMarker);
       });
       //@ts-ignore
       greatCircle.value.addTo(map.value);
+      //@ts-ignore
+      markers.value.addTo(map.value);
+      map.value?.fitBounds(greatCircle.value.getBounds());
     };
     onMounted(() => {
       const mapElement = document.getElementById("map");
@@ -158,11 +159,15 @@ export default defineComponent({
         arrivalMarker.value = null;
         arrival.value = _defaultValues.arrival;
       }
+      if (greatCircle.value) {
+        greatCircle.value.remove();
+        greatCircle.value = null;
+      }
       step.value = _defaultValues.step;
       speedOverGround.value = _defaultValues.speedOverGround;
     };
 
-    return {departure, arrival, step, path, submitForm, resetForm};
+    return {departure, arrival, step, speedOverGround, path, submitForm, resetForm};
   },
 });
 </script>

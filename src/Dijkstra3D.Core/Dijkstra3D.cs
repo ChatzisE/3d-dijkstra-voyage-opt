@@ -16,7 +16,7 @@ public class Dijkstra3D : IDijkstra3D
         var distanceStep = speedOverGround * step;
         var startPoint = departure;
         path.Add(departure);
-        while (totalDistance > 0)
+        while (totalDistance > distanceStep)
         {
             var newPoint = _calculations.FindNewPointOnGC(startPoint.Lon,
                 startPoint.Lat,
@@ -27,7 +27,7 @@ public class Dijkstra3D : IDijkstra3D
             startPoint = newPoint;
             totalDistance -= distanceStep;
         }
-
+        path.Add(arrival);
         return path;
     }
 }
