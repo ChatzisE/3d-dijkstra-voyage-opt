@@ -73,11 +73,6 @@ export default defineComponent({
     const step = ref(_defaultValues.step);
     const speedOverGround = ref(_defaultValues.speedOverGround);
     const path = ref<Waypoint[] | null>(null);
-    const markers = ref<L.LayerGroup | null>(null);
-    const map = ref<L.Map | null>(null);
-    const departureMarker = ref<L.Marker | null>();
-    const arrivalMarker = ref<L.Marker | null>(null);
-    const greatCircle = ref<L.Polyline | null>(null);
     const submitForm = async (event: Event) => {
       event.preventDefault();
       path.value = await common.getGreatCirclePath(
@@ -102,51 +97,7 @@ export default defineComponent({
       markers.value.addTo(map.value);
       map.value?.fitBounds(greatCircle.value.getBounds());
     };
-    onMounted(() => {
-      const mapElement = document.getElementById("map");
-      if (mapElement) {
-        map.value = L.map(mapElement).setView([0, 0], 2);
-        map.value.zoomControl.setPosition("topright");
-        L.tileLayer(
-            "https://a.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png",
-            {
-              attribution:
-                  'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
-              maxZoom: 18,
-            }//@ts-ignore
-        ).addTo(map.value);
-        departureMarker.value = L.marker(
-            [departure.value.lat, departure.value.lon],
-            {
-              draggable: true,
-            }//@ts-ignore
-        ).addTo(map.value);
-        arrivalMarker.value = L.marker([arrival.value.lat, arrival.value.lon], {
-          draggable: true,
-          //@ts-ignore
-        }).addTo(map.value);
-        markers.value = new L.LayerGroup();
-        map.value.on("click", (event: any) => {
-          if (!departureMarker.value) {
-            departureMarker.value = L.marker(event.latlng, {
-              draggable: true,
-              //@ts-ignore
-            }).addTo(map.value);
-            departure.value = <Waypoint>{
-              lat: event.latlng.lat,
-              lon: event.latlng.lng,
-              timestamp: new Date(),
-            };
-          } else if (!arrivalMarker.value) {
-            arrival.value = <Waypoint>{
-              lat: event.latlng.lat,
-              lon: event.latlng.lng,
-              timestamp: new Date(),
-            };
-          }
-        });
-      }
-    });
+    onMounted(() => { });
 
     const resetForm = () => {
       if (departureMarker.value) {
