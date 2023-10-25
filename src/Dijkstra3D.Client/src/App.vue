@@ -48,7 +48,7 @@ import {defineComponent, onMounted, ref} from "vue";
 import Waypoint from "./models/waypoint";
 import PathRequest from "./models/pathRequest";
 import common from "./services/common";
-import mapHelper from "./services/mapHelper";
+import MapHelper from "./services/mapHelper";
 
 export default defineComponent({
   name: "App",
@@ -72,7 +72,7 @@ export default defineComponent({
     const step = ref(_defaultValues.step);
     const speedOverGround = ref(_defaultValues.speedOverGround);
     const path = ref<Waypoint[] | null>(null);
-    const mapHelper = ref(mapHelper);
+    let mapHelper: MapHelper;
     const submitForm = async (event: Event) => {
       event.preventDefault();
       path.value = await common.getGreatCirclePath(
@@ -82,33 +82,22 @@ export default defineComponent({
             step: step.value,
             speedOverGround: speedOverGround.value
           }
-       mapHelper.value.add
       );
+      if (path.value) {
+        mapHelper.drawPath(path.value);
+      }
 
     };
     onMounted(() => {
-      mapHelper.value = new mapHelper('map');
+      mapHelper = new MapHelper('map');
     });
 
     const resetForm = () => {
-      if (departureMarker.value) {
-        departureMarker.value.remove();
-        departureMarker.value = null;
-        departure.value = _defaultValues.departure;
-      }
-      if (arrivalMarker.value) {
-        arrivalMarker.value.remove();
-        arrivalMarker.value = null;
-        arrival.value = _defaultValues.arrival;
-      }
-      if (greatCircle.value) {
-        greatCircle.value.remove();
-        greatCircle.value = null;
-      }
+      departure.value = _defaultValues.departure;
+      arrival.value = _defaultValues.arrival;
       step.value = _defaultValues.step;
       speedOverGround.value = _defaultValues.speedOverGround;
     };
-
     return {departure, arrival, step, speedOverGround, path, submitForm, resetForm};
   },
 });
