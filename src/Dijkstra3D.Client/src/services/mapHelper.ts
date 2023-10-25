@@ -1,37 +1,66 @@
 import L from 'leaflet';
+import PathRequest from "./models/pathRequest";
+import pathRequest from "../models/pathRequest.ts";
 
 class mapHelper {
-    markers: L.LayerGroup;
+    circleMarkers: L.LayerGroup;
     departureMarker: L.Marker;
     arrivalMarker: L.Marker;
     greatCircle: L.Polyline;
     departureIcon: L.DivIcon;
     arrivalIcon: L.DivIcon;
-    // Normal signature with defaults
+    map: L.Map;
+    fontAwesomeIcon: L.divIcon = L.divIcon({
+        html: '<i class="fa fa-map-marker fa-4x"></i>',
+        iconSize: [20, 20],
+        className: 'myDivIcon'
+    });
+
     constructor(mapId: string) {
         const mapElement = document.getElementById(mapId);
         if (mapElement) {
-            map.value = L.map(mapElement).setView([0, 0], 2);
-            map.value.zoomControl.setPosition("topright");
+            this.map = L.map(mapElement).setView([0, 0], 2);
+            this.map.zoomControl.setPosition("topright");
             L.tileLayer(
                 "https://a.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png",
                 {
                     attribution:
                         'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors',
                     maxZoom: 18,
-                }//@ts-ignore
-            ).addTo(map.value);
-            departureMarker.value = L.marker(
-                [departure.value.lat, departure.value.lon],
-                {
-                    draggable: true,
-                }//@ts-ignore
-            ).addTo(map.value);
-            arrivalMarker.value = L.marker([arrival.value.lat, arrival.value.lon], {
-                draggable: true,
-                //@ts-ignore
-            }).addTo(map.value);
-            markers.value = new L.LayerGroup();
+                }
+            ).addTo(this.map);
         }
+    }
+
+    addMarker(lat: number, lon: number, type: string): void {
+        switch (type) {
+            case "departure":
+                this.departureMarker = L.marker(
+                    [departure.lat, departure.lon],
+                    {icon: this.fontAwesomeIcon}
+                ).addTo(this.map);
+                break;
+            case "arrival":
+                this.arrivalMarker = L.marker([arrival.lat, arrival.lon],
+                    {icon: this.fontAwesomeIcon}).addTo(this.map);
+                break;
+            case "circle":
+                const circleMarker = L.circleMarker(L.latLng(p.lat, p.lon), {
+                    radius: 3,
+                    color: '#121A1DFF',
+                    fillOpacity: 1
+                });
+                this.circleMarkers.addLayer(circleMarker);
+        }
+    }
+
+    drawPath(path: pathRequest): void {
+        path.forEach((p) => {
+            this.greatCircle.addLatLng(L.latLng(p.lat, p.lon));
+            this.addMarker(p.lat, p.lon, "circle");
+        });
+        this.greatCircle.addTo(this.map);
+        this.markers.addTo(this.map);
+        this.map.fitBounds(this.greatCircle.getBounds());
     }
 }

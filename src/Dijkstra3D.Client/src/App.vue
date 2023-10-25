@@ -45,11 +45,10 @@
 
 <script lang="ts">
 import {defineComponent, onMounted, ref} from "vue";
-import L from "leaflet";
-import "leaflet/dist/leaflet.css";
 import Waypoint from "./models/waypoint";
 import PathRequest from "./models/pathRequest";
 import common from "./services/common";
+import mapHelper from "./services/mapHelper";
 
 export default defineComponent({
   name: "App",
@@ -73,6 +72,7 @@ export default defineComponent({
     const step = ref(_defaultValues.step);
     const speedOverGround = ref(_defaultValues.speedOverGround);
     const path = ref<Waypoint[] | null>(null);
+    const mapHelper = ref(mapHelper);
     const submitForm = async (event: Event) => {
       event.preventDefault();
       path.value = await common.getGreatCirclePath(
@@ -82,22 +82,13 @@ export default defineComponent({
             step: step.value,
             speedOverGround: speedOverGround.value
           }
+       mapHelper.value.add
       );
-      //@ts-ignore
-      if (greatCircle.value) map.value?.removeLayer(greatCircle.value);
-      else greatCircle.value = L.polyline([], {color: "#005fa3"});
-      path.value?.forEach((p) => {
-        greatCircle.value?.addLatLng(L.latLng(p.lat, p.lon));
-        const circleMarker = L.circleMarker(L.latLng(p.lat, p.lon), { radius: 3, color: '#121A1DFF', fillOpacity: 1 });
-        markers.value?.addLayer(circleMarker);
-      });
-      //@ts-ignore
-      greatCircle.value.addTo(map.value);
-      //@ts-ignore
-      markers.value.addTo(map.value);
-      map.value?.fitBounds(greatCircle.value.getBounds());
+
     };
-    onMounted(() => { });
+    onMounted(() => {
+      mapHelper.value = new mapHelper('map');
+    });
 
     const resetForm = () => {
       if (departureMarker.value) {
