@@ -10,7 +10,7 @@ export default class MapHelper {
     arrivalIcon: L.DivIcon;
     map: L.Map;
     fontAwesomeIcon: L.DivIcon = L.divIcon({
-        html: '<i class="fa fa-map-marker fa-4x"></i>',
+        html: '<i class="fa-solid fa-d fa-2x"></i>',
         iconSize: [20, 20],
         className: 'myDivIcon'
     });
@@ -41,14 +41,18 @@ export default class MapHelper {
     addMarker(lat: number, lon: number, type: string): void {
         switch (type) {
             case "departure":
-                this.departureMarker = L.marker(
-                    [lat, lon],
-                    {icon: this.departureIcon}
-                ).addTo(this.map);
+                L.circleMarker(L.latLng(lat, lon), {
+                    radius: 9,
+                    color: '#95390f',
+                    fillOpacity: 1
+                }).addTo(this.map);
                 break;
             case "arrival":
-                this.arrivalMarker = L.marker([lat, lon],
-                    {icon: this.arrivalIcon}).addTo(this.map);
+                L.circleMarker(L.latLng(lat, lon), {
+                    radius: 9,
+                    color: '#95390f',
+                    fillOpacity: 1
+                }).addTo(this.map);
                 break;
             case "circle":
                 const circleMarker = L.circleMarker(L.latLng(lat, lon), {

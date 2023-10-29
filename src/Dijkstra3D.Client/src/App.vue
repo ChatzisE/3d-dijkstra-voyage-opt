@@ -90,6 +90,8 @@ export default defineComponent({
     };
     onMounted(() => {
       mapHelper = new MapHelper('map');
+      mapHelper.addMarker(departure.value.lat, departure.value.lon, 'departure');
+      mapHelper.addMarker(arrival.value.lat, arrival.value.lon, 'arrival');
     });
 
     const resetForm = () => {
