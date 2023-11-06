@@ -263,5 +263,21 @@ namespace Dijkstra3D.Core
             double trigonometricalDegrees = 90 - vesselDegrees;
             return trigonometricalDegrees;
         }
+
+        public Waypoint CalculatePerpendicularPoint(double x1, double y1, double x2, double y2)
+        {
+            double dx = x2 - x1;
+            double dy = y2 - y1;
+
+            // Calculate the coordinates of the perpendicular point
+            double px = x1 + dy;
+            double py = y1 - dx;
+
+            return new Waypoint()
+            {
+                Lon = px,
+                Lat = py
+            };
+        }
     }
 }

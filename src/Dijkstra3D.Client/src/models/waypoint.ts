@@ -2,5 +2,7 @@ interface Waypoint {
     lat: number;
     lon: number;
     timestamp: Date;
-  }
-  export default Waypoint;
+    perpendiculars: [Waypoint];
+}
+
+export default Waypoint;

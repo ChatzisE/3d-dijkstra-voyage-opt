@@ -70,6 +70,10 @@ export default class MapHelper {
         path.forEach((p) => {
             this.pathLine.addLatLng(L.latLng(p.lat, p.lon));
             this.addMarker(p.lat, p.lon, "circle");
+            p.perpendiculars.forEach((perpendicular) => {
+                //this.pathLine.addLatLng(L.latLng(perpendicular.lat, perpendicular.lon));
+                this.addMarker(perpendicular.lat, perpendicular.lon, "circle");
+            });
         });
         this.pathLine.addTo(this.map);
         this.circleMarkers.addTo(this.map);
