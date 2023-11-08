@@ -264,20 +264,24 @@ namespace Dijkstra3D.Core
             return trigonometricalDegrees;
         }
 
-        public Waypoint CalculatePerpendicularPoint(double x1, double y1, double x2, double y2)
+        public Dictionary<string, double> CalculatePerpendicularLine(double x1, double y1, double x2, double y2)
         {
-            double dx = x2 - x1;
-            double dy = y2 - y1;
-
-            // Calculate the coordinates of the perpendicular point
-            double px = x1 + dy;
-            double py = y1 - dx;
-
-            return new Waypoint()
+            var slop = (y2 - y1) / (x2 - x1);
+            var slopPerpendicular = - (1 / slop);
+            // y = mx + b
+            var b = (slopPerpendicular * x2) - y2;
+            return new Dictionary<string, double>
             {
-                Lon = px,
-                Lat = py
+                {"slop", slopPerpendicular},
+                {"b", b}
             };
+        }
+        public Waypoint FindPointInPerpendicular(Dictionary<string, double> perpendicularLine, double y)
+        {
+            // y = mx + b
+            var x = (y - perpendicularLine["b"]) / perpendicularLine["slop"];
+            var perpendicularPoint = new Waypoint() { Lat = y, Lon = x };
+            return perpendicularPoint;
         }
     }
 }

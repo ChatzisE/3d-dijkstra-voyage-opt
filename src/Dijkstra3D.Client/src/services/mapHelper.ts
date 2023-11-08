@@ -43,14 +43,14 @@ export default class MapHelper {
             case "departure":
                 L.circleMarker(L.latLng(lat, lon), {
                     radius: 9,
-                    color: '#95390f',
+                    color: '#ee9265',
                     fillOpacity: 1
                 }).addTo(this.map);
                 break;
             case "arrival":
                 L.circleMarker(L.latLng(lat, lon), {
                     radius: 9,
-                    color: '#95390f',
+                    color: '#ee9265',
                     fillOpacity: 1
                 }).addTo(this.map);
                 break;

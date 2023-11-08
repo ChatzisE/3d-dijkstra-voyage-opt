@@ -37,10 +37,11 @@ public class Dijkstra3D : IDijkstra3D
     {
         for (var i = 1; i < path.Count - 1; i++)
         {
-            var newPoint = _calculations.CalculatePerpendicularPoint(path[i - 1].Lon,
+            var line = _calculations.CalculatePerpendicularLine(path[i - 1].Lon,
                 path[i - 1].Lat,
                 path[i].Lon,
                 path[i].Lat);
+            var newPoint = _calculations.FindPointInPerpendicular(line, path[i].Lat);
             path[i].Perpendiculars.Add(newPoint);
         }
     }
