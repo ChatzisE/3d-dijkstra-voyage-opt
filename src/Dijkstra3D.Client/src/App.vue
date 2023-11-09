@@ -2,14 +2,14 @@
   <div id="map-container">
     <form id="sidebar">
       <div id="sidebar-title">Algorithm Set Up</div>
-      <div class="sidebar-sub-title">Departure:</div>
+      <div style="color: #ee9265" class="sidebar-sub-title">Departure:</div>
       <div>
         <label for="departure-lon">Longitude:</label>
         <input id="departure-lon" v-model.number="departure.lon" required/>
         <label for="departure-lat">Latitude:</label>
         <input id="departure-lat" v-model.number="departure.lat" required/>
       </div>
-      <div class="sidebar-sub-title">Arrival:</div>
+      <div style="color: #84BD72FF" class="sidebar-sub-title">Arrival:</div>UI
       <div>
         <label for="arrival-lon">Longitude:</label>
         <input id="arrival-lon" v-model.number="arrival.lon" required/>

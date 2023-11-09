@@ -26,7 +26,7 @@ export default class MapHelper {
         if (!mapElement) {
             throw new Error("Map element not found");
         }
-        this.map = L.map(mapElement).setView([0, 0], 2);
+        this.map = L.map(mapElement).setView([0, 0], 3);
         this.map.zoomControl.setPosition("topright");
         L.tileLayer(
             "https://a.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}@2x.png",
@@ -50,7 +50,7 @@ export default class MapHelper {
             case "arrival":
                 L.circleMarker(L.latLng(lat, lon), {
                     radius: 9,
-                    color: '#ee9265',
+                    color: '#84bd72',
                     fillOpacity: 1
                 }).addTo(this.map);
                 break;
@@ -77,6 +77,6 @@ export default class MapHelper {
         });
         this.pathLine.addTo(this.map);
         this.circleMarkers.addTo(this.map);
-        this.map.fitBounds(this.pathLine.getBounds());
+        //this.map.fitBounds(this.pathLine.getBounds());
     }
 }
