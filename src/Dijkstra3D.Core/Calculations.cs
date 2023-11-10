@@ -283,5 +283,64 @@ namespace Dijkstra3D.Core
             var perpendicularPoint = new Waypoint() { Lat = y, Lon = x };
             return perpendicularPoint;
         }
+
+        public double[] FindLineFrom2Points(double lon1, double lat1, double lon2, double lat2)
+        {
+            double[] line = new double[3];
+
+            if (lon1 == lon2)
+            {
+                line[0] = 0;
+                line[1] = 1;
+                line[2] = -1 * lon1; // x = -b, where -b = lon => b = -lon
+            }
+            else if (lat1 == lat2)
+            {
+                line[0] = 1;
+                line[1] = 0;
+                line[2] = lat1; // y = b
+            }
+            else
+            {
+                line[0] = 1;
+                line[1] = (lat1 - lat2) / (lon1 - lon2);
+                line[2] = lat1 - line[1] * lon1; // b = y_1 - ax_1
+            }
+
+            return line;
+        }
+        // Line y = ax + b
+        // Perpendicular y = (-1/a)x + c
+        // [0]: {0,1} - 0 if lon1 = lon2, else 1
+        // [1]: coefficient (-1/a) = \lambda
+        // [2]: coefficient c
+        public double[] FindLinePerpendicularFromPoint(double[] line, double lon1, double lat1)
+        {
+            double[] perpendicular = new double[3];
+
+            if (line[0] == 0) // if line is of the form x = -b, perpendicular is of the form y = c
+            {
+                perpendicular[0] = 1;
+                perpendicular[1] = 0;
+                perpendicular[2] = lat1; // y = c
+            }
+            else
+            {
+                if (line[1] == 0) // if line is of the form y = b, perpendicular is of the form x = -c
+                {
+                    perpendicular[0] = 0;
+                    perpendicular[1] = 1;
+                    perpendicular[2] = -1 * lon1; // x = -c => c = -x
+                }
+                else // if line is of the form y = ax + b, perpendicular is of the form y = (-1/a)x + c
+                {
+                    perpendicular[0] = 1;
+                    perpendicular[1] = -1 / line[1];
+                    perpendicular[2] = lat1 - perpendicular[1] * lon1; // c = y_1 - (-1/a)x_1 
+                }
+            }
+
+            return perpendicular;
+        }
     }
 }
